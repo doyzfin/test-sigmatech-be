@@ -21,7 +21,7 @@ app.use(compression())
 app.use(bodyParser.urlencoded({ extended: false }))
 // parse application/json
 app.use(bodyParser.json())
-app.use('/', routerNavigation)
+app.use('/backend', routerNavigation)
 app.use('/api', express.static('src/uploads'))
 
 app.listen(port, () => {
