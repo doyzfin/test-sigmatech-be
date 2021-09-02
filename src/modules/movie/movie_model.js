@@ -32,5 +32,21 @@ module.exports = {
         }
       )
     })
+  },
+  createData: (setData) => {
+    return new Promise((resolve, reject) => {
+      connection.query('INSERT INTO movies SET ?', setData, (error, result) => {
+        // !error ? resolve({id:result.insertId,...setData}) : reject(new Error(error))
+        if (!error) {
+          const newResult = {
+            id: result.insertId,
+            ...setData
+          }
+          resolve(newResult)
+        } else {
+          reject(new Error(error))
+        }
+      })
+    })
   }
 }

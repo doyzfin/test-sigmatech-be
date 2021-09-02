@@ -58,7 +58,7 @@ module.exports = {
           const payload = checkEmailUser[0]
           delete payload.user_password
           const token = jwt.sign({ ...payload }, 'RAHASIA', {
-            expiresIn: '60s'
+            expiresIn: '3600s'
           })
           const result = { ...payload, token }
           return helper.response(res, 200, 'Success Login', result)

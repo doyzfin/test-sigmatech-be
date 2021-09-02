@@ -14,5 +14,10 @@ Route.get(
   authMiddleware.authentication,
   membershipController.getMembershipById
 )
+Route.post(
+  '/',
+  authMiddleware.authentication,
+  membershipController.postMembership
+)
 
 module.exports = Route

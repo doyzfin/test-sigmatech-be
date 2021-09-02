@@ -12,9 +12,9 @@ module.exports = {
         page = '1'
       }
       if (limit === undefined) {
-        limit = '5'
+        limit = '18'
       } else if (limit === '') {
-        limit = '5'
+        limit = '18'
       }
       if (sort === undefined) {
         sort = 'movies_id ASC'
@@ -68,6 +68,29 @@ module.exports = {
       } else {
         return helper.response(res, 404, `Data Not Found By Id = ${id}`, null)
       }
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
+  },
+  postMovie: async (req, res) => {
+    try {
+      console.log(req.body)
+      const { title, detail, thumbnailPotrait, movieId } = req.body
+      const setData = {
+        movies_name: title,
+        movies_category: detail.genre,
+        movies_release: detail.release,
+        movies_duration: detail.duration,
+        movie_image: thumbnailPotrait,
+        movies_description: detail.description,
+        movies_price: movieId,
+        movies_created_at: new Date(Date.now()),
+        movies_updated_at: new Date(Date.now())
+      }
+      console.log(setData)
+      const result = await movieModel.createData(setData)
+
+      return helper.response(res, 200, 'Succes Post Movie', result)
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
     }

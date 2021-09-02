@@ -37,5 +37,29 @@ module.exports = {
     } catch (error) {
       return helper.response(res, 400, 'Bad Request', error)
     }
+  },
+  buyMovies: async (req, res) => {
+    try {
+      const { userId, moviesId, price, isMembership } = req.body
+      const setData = {
+        user_id: userId,
+        movies_id: moviesId,
+        transaction_amount: price,
+        is_membership: isMembership
+      }
+
+      const setData2 = {
+        user_id: userId,
+        movies_id: moviesId
+      }
+      const result = await transactionModel.createBuy(setData)
+      const result2 = await transactionModel.saveFilm(setData2)
+      return helper.response(res, 200, 'Success Buy Movies', {
+        buy: result,
+        save: result2
+      })
+    } catch (error) {
+      return helper.response(res, 400, 'Bad Request', error)
+    }
   }
 }

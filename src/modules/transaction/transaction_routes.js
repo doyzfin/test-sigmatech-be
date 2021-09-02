@@ -14,5 +14,6 @@ Route.get(
   authMiddleware.authentication,
   transactionController.getTransactionById
 )
+Route.post('/', authMiddleware.authentication, transactionController.buyMovies)
 
 module.exports = Route

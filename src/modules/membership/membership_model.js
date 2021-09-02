@@ -28,5 +28,36 @@ module.exports = {
         }
       )
     })
+  },
+  createData: (setData) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'INSERT INTO transaction SET ?',
+        setData,
+        (error, result) => {
+          // !error ? resolve({id:result.insertId,...setData}) : reject(new Error(error))
+          if (!error) {
+            const newResult = {
+              id: result.insertId,
+              ...setData
+            }
+            resolve(newResult)
+          } else {
+            reject(new Error(error))
+          }
+        }
+      )
+    })
+  },
+  updateUser: (setData, id) => {
+    return new Promise((resolve, reject) => {
+      connection.query(
+        'UPDATE users SET ? WHERE user_id = ?',
+        [setData, id],
+        (error, result) => {
+          !error ? resolve({ id: id, ...setData }) : reject(new Error(error))
+        }
+      )
+    })
   }
 }
