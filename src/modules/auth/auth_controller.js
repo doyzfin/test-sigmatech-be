@@ -9,11 +9,8 @@ module.exports = {
   register: async (req, res) => {
     try {
       const { userEmail, userPassword, userName, userPhone } = req.body
-
-      // proses encrypt
       const salt = bcrypt.genSaltSync(10)
       const encryptPassword = bcrypt.hashSync(userPassword, salt)
-
       const checkEmailUser = await authModel.getDataCondition({
         user_email: userEmail
       })
@@ -32,7 +29,6 @@ module.exports = {
           user_phone: userPhone,
           user_image: '../../uploads/default.png'
         }
-
         const result = await authModel.register(setData)
         delete result.user_password
         return helper.response(res, 200, 'Success Register', result)
@@ -47,13 +43,11 @@ module.exports = {
       const checkEmailUser = await authModel.getDataCondition({
         user_email: userEmail
       })
-      // console.log(checkEmailUser)
       if (checkEmailUser.length > 0) {
         const checkPassword = bcrypt.compareSync(
           userPassword,
           checkEmailUser[0].user_password
         )
-        // console.log(checkPassword)
         if (checkPassword) {
           const payload = checkEmailUser[0]
           delete payload.user_password
