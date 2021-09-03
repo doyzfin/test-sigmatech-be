@@ -32,7 +32,7 @@ module.exports = {
   createData: (setData) => {
     return new Promise((resolve, reject) => {
       connection.query(
-        'INSERT INTO transaction SET ?',
+        `CALL membership2(${setData.is_membership},${setData.membership_id},${setData.transaction_amount},${setData.user_id})`,
         setData,
         (error, result) => {
           // !error ? resolve({id:result.insertId,...setData}) : reject(new Error(error))

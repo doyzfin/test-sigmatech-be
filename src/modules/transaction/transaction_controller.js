@@ -52,6 +52,8 @@ module.exports = {
         user_id: userId,
         movies_id: moviesId
       }
+
+      console.log(setData)
       const result = await transactionModel.createBuy(setData)
       const result2 = await transactionModel.saveFilm(setData2)
       return helper.response(res, 200, 'Success Buy Movies', {
@@ -59,6 +61,7 @@ module.exports = {
         save: result2
       })
     } catch (error) {
+      console.log(error)
       return helper.response(res, 400, 'Bad Request', error)
     }
   }

@@ -3,7 +3,7 @@ const connection = require('../../config/mysql')
 module.exports = {
   getDataAll: () => {
     return new Promise((resolve, reject) => {
-      connection.query('SELECT * FROM transaction', (error, result) => {
+      connection.query('CALL show_transaction()', (error, result) => {
         !error ? resolve(result) : reject(new Error(error))
       })
     })
@@ -21,9 +21,12 @@ module.exports = {
   },
   createBuy: (setData) => {
     return new Promise((resolve, reject) => {
-      connection.query(
-        'INSERT INTO transaction SET ?',
-        setData,
+      const query = connection.query(
+        `
+        CALL buy_movies2(${setData.is_membership}, ${setData.movies_id}, ${setData.transaction_amount}, ${setData.user_id});
+        
+       `,
+
         (error, result) => {
           // !error ? resolve({id:result.insertId,...setData}) : reject(new Error(error))
           if (!error) {
@@ -37,6 +40,7 @@ module.exports = {
           }
         }
       )
+      console.log(query.sql)
     })
   },
   saveFilm: (setData) => {
